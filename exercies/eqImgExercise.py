@@ -37,7 +37,7 @@ def EqualiseImg(img):
 
 # Loading image
 alpha = 0.5
-img = cv2.imread('256x256_grayscale.png', cv2.IMREAD_GRAYSCALE).astype(np.float32)
+img = cv2.imread('../images/256x256_grayscale.png', cv2.IMREAD_GRAYSCALE).astype(np.float32)
 img = img * alpha
 
 

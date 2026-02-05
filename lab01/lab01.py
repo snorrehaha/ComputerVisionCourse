@@ -165,7 +165,7 @@ plt.title("RGB channel values along the ramp")
 plt.show()
 """
 
-warm_img = cv2.imread("../warm_picture.jpg").astype(np.float32)
+warm_img = cv2.imread("../images/warm_picture.jpg").astype(np.float32)
 
 cv2.imshow("Original", warm_img.astype(np.uint8))
 

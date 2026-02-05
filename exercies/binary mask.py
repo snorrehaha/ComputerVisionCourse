@@ -23,7 +23,7 @@ cv2.destroyAllWindows()
 import cv2
 
 # Read image
-img = cv2.imread("slothpng")
+img = cv2.imread("../images/slothpng")
 
 # Convert to grayscale
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
