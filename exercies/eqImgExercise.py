@@ -1,6 +1,7 @@
 ﻿import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
 ###Always have to show the image as an int
 ###Do calculations on the image as a float
 ###You cant index when it is a float
@@ -12,8 +13,7 @@ def CalculateHistogram(img):
 
     for i in range(M):
         for j in range(N):
-            pixel = img[i, j]
-            histo[int(pixel)] += 1
+            histo[int(img[i,j])] += 1
     return histo
 
 def CDFCalc(histo):
@@ -29,7 +29,7 @@ def EqualiseImg(img):
     histo = CalculateHistogram(img)
     cdf = CDFCalc(histo)
     M, N = img.shape[:2]
-    cdf_min = cdf.min()
+    cdf_min = cdf[0]
 
     equalisation = np.round(((cdf - cdf_min) / ((M*N) - cdf_min)) * (256-1))
     eqImg = equalisation[img.astype(np.uint8)]
@@ -51,6 +51,12 @@ eqImg = EqualiseImg(img)
 eqHisto = CalculateHistogram(eqImg)
 
 
+""" cdf histogram of image
+plt.figure()
+plt.plot(cdf, label='CDF')
+plt.title('Histogram cdf')
+plt.show()
+"""
 fig, axs = plt.subplots(2, 2, figsize=(12, 10))
 
 # --- RAD 1: BILDER ---
