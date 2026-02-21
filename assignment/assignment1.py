@@ -15,11 +15,11 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 #Animal recognition Bear / Crocodile
-bear_paths = "../Datasets/train/Bear"
-crocodile_paths = "../Datasets/train/Crocodile"
+bear_paths = "../DatasetForGit/Bear"
+crocodile_paths = "../DatasetForGit/Crocodile"
 
-bear_paths = [os.path.join(bear_paths, f) for f in os.listdir("../Datasets/train/Bear")]
-crocodile_paths = [os.path.join(crocodile_paths, f) for f in os.listdir("../Datasets/train/Crocodile")]
+bear_paths = [os.path.join(bear_paths, f) for f in os.listdir("../DatasetForGit/Bear")]
+crocodile_paths = [os.path.join(crocodile_paths, f) for f in os.listdir("../DatasetForGit/Crocodile")]
 
 # Load and preprocess image
 # Resize, convert to LAB and normalize to [1,0]
