@@ -15,11 +15,11 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 #Animal recognition Bear / Crocodile
-bear_paths = "../DatasetForGit/Bear"
-crocodile_paths = "../DatasetForGit/Crocodile"
+bear_paths = "../Datasets/train/Brown bear"
+crocodile_paths = "../Datasets/train/Polar bear"
 
-bear_paths = [os.path.join(bear_paths, f) for f in os.listdir("../DatasetForGit/Bear")]
-crocodile_paths = [os.path.join(crocodile_paths, f) for f in os.listdir("../DatasetForGit/Crocodile")]
+bear_paths = [os.path.join(bear_paths, f) for f in os.listdir("../Datasets/train/Brown bear")]
+crocodile_paths = [os.path.join(crocodile_paths, f) for f in os.listdir("../Datasets/train/Polar bear")]
 
 # Load and preprocess image
 # Resize, convert to LAB and normalize to [1,0]
@@ -152,7 +152,7 @@ print(classification_report(Y_test, Y_pred_test))
 # Plotting and visualisation
 # Example images
 fig, axes = plt.subplots(2, 3, figsize=(10,6))
-for i, path in enumerate(bear_paths[:3]):
+for i, path in enumerate(bear_paths[10:13]):
     img = cv2.imread(path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     axes[0,i].imshow(img)
@@ -170,7 +170,7 @@ for i, path in enumerate(crocodile_paths[:3]):
 plt.suptitle("Sample Images from Dataset")
 plt.show()
 
-img = cv2.imread(bear_paths[0])
+img = cv2.imread(bear_paths[10])
 img_lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
 L, a, b = cv2.split(img_lab)
 
