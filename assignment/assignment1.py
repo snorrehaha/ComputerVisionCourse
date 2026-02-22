@@ -1,14 +1,13 @@
 import numpy as np
 import cv2
-from sklearn.model_selection import train_test_split
 import os
+import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
-import pywt
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 
 # -----------------------------------------------------------------------------------------------------
 #Dataset Paths
@@ -17,6 +16,9 @@ crocodile_paths = "../DatasetForGit/Crocodile/"
 
 bear_paths = [os.path.join(bear_paths, f) for f in os.listdir("../DatasetForGit/Bear/")]
 crocodile_paths = [os.path.join(crocodile_paths, f) for f in os.listdir("../DatasetForGit/Crocodile/")]
+
+print(len(bear_paths))
+print(len(crocodile_paths))
 
 #Functions
 #------------------------------------------------------------------------------------------------------
