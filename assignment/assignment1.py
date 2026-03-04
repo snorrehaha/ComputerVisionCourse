@@ -182,7 +182,7 @@ print("Confusion Matrix:\n", confusion_matrix(Y_test, Y_pred_test))
 # Example images
 fig, axes = plt.subplots(2, 3, figsize=(10,6))
 
-# Bears (skip first bad image)
+# Bears
 for i, path in enumerate(bear_paths[10:13]):
     img = cv2.imread(path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
