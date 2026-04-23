@@ -27,8 +27,15 @@ def load_dataset(paths, label):
 
     for path in paths:
         img = f.LoadImage(path)
-        mask = f.segment_plant_hsv(img)
+        #mask = f.segment_plant_hsv(img)
+
+        h, w = img.shape[:2]
+        mask = np.ones((h, w), dtype=np.uint8)
+
+
         feats = f.extract_features(img, mask)
+
+
 
         X_local.append(feats)
         y_local.append(label)
@@ -60,7 +67,7 @@ X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.40, strati
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp,test_size=0.50, stratify=y_temp,random_state=20)
 
 
-"""Scaler"""
+"""-------------------------Scaler--------------------------------"""
 from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
@@ -69,7 +76,7 @@ X_val_scaled   = scaler.transform(X_val)
 X_test_scaled  = scaler.transform(X_test)
 
 
-"""Baseline model"""
+"""----------------------Baseline model---------------------------"""
 from sklearn.svm import LinearSVC
 from sklearn.metrics import accuracy_score, classification_report
 
@@ -82,7 +89,7 @@ print("Baseline Validation Performance")
 print("Accuracy:", accuracy_score(y_val, val_pred))
 print(classification_report(y_val, val_pred))
 
-"""Hyperparamter Tuning with C search"""
+"""------------------Hyperparamter Tuning with C search------------"""
 best_score = 0
 best_C = None
 
@@ -100,7 +107,7 @@ print("Best C:", best_C)
 print("Best validation accuracy:", best_score)
 
 
-"""Train final model"""
+"""---------------------Train final model---------------------------"""
 import numpy as np
 
 X_trainval = np.vstack([X_train, X_val])
@@ -113,7 +120,7 @@ X_test_scaled_final = scaler_final.transform(X_test)
 final_model = LinearSVC(C=best_C, max_iter=5000)
 final_model.fit(X_trainval_scaled, y_trainval)
 
-"""Final evaluation"""
+"""---------------------Final evaluation--------------------------"""
 test_pred = final_model.predict(X_test_scaled_final)
 
 print("Final Test Results")
