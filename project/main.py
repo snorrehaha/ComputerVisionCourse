@@ -1,14 +1,9 @@
 # classification of potato leaf disease
 """Imports"""
 
-
 import functions as f
 import numpy as np
 import matplotlib.pyplot as plt
-import cv2
-from skimage.feature import hog
-from skimage import exposure
-
 
 """Pathing and preparing dataset-------------------------------------------------------------------------------------"""
 import os
@@ -30,12 +25,9 @@ def load_dataset(paths, label):
         #mask = f.segment_plant_hsv(img)
 
         h, w = img.shape[:2]
-        mask = np.ones((h, w), dtype=np.uint8)
-
+        mask = np.ones((h, w), dtype=np.uint8) # because functions are made for segment masks, use this instead
 
         feats = f.extract_features(img, mask)
-
-
 
         X_local.append(feats)
         y_local.append(label)
@@ -57,17 +49,35 @@ for paths, label in [
 X = np.array(X, dtype=np.float32)
 y = np.array(y)
 
+import cv2
+
+def show_samples(paths, title):
+    plt.figure(figsize=(6,2))
+    for i in range(3):
+        img = f.LoadImage(paths[i])
+        img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
+        plt.subplot(1,3,i+1)
+        plt.imshow(img)
+        plt.axis("off")
+    plt.suptitle(title)
+    plt.tight_layout()
+    plt.show()
+
+show_samples(healthy_paths, "Healthy Leaves")
+show_samples(early_paths, "Early Blight")
+show_samples(late_paths, "Late Blight")
+
 """TRAINING----------------------------------------------------------------------------------------------------------"""
 
-"""Train test val split"""
+"""-----------------------Train test val split-----------------------"""
 from sklearn.model_selection import train_test_split
-# First split: train vs temp
+
+# 60 / 20 / 20 --- train / test / validation
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.40, stratify=y, random_state=20)
-# Second split: validation vs test
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp,test_size=0.50, stratify=y_temp,random_state=20)
 
 
-"""-------------------------Scaler--------------------------------"""
+"""----------------------------Scaler--------------------------------"""
 from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
@@ -89,22 +99,29 @@ print("Baseline Validation Performance")
 print("Accuracy:", accuracy_score(y_val, val_pred))
 print(classification_report(y_val, val_pred))
 
-"""------------------Hyperparamter Tuning with C search------------"""
-best_score = 0
-best_C = None
+"""------------------Hyperparameter Tuning with C search------------"""
+import matplotlib.pyplot as plt
 
-for C in [0.01, 0.1, 1, 10]:
+C_values = [0.01, 0.1, 1, 10]
+scores = []
+
+for C in C_values:
     model = LinearSVC(C=C, max_iter=5000)
     model.fit(X_train_scaled, y_train)
-
     score = model.score(X_val_scaled, y_val)
+    scores.append(score)
 
-    if score > best_score:
-        best_score = score
-        best_C = C
+best_C = C_values[np.argmax(scores)]
+best_score = max(scores)
 
-print("Best C:", best_C)
-print("Best validation accuracy:", best_score)
+plt.figure()
+plt.plot(C_values, scores, marker='o')
+plt.xscale('log')
+plt.xlabel("C (log scale)")
+plt.ylabel("Validation Accuracy")
+plt.title("Hyperparameter Tuning (SVM)")
+plt.grid(True)
+plt.show()
 
 
 """---------------------Train final model---------------------------"""
@@ -127,12 +144,35 @@ print("Final Test Results")
 print("Accuracy:", accuracy_score(y_test, test_pred))
 print(classification_report(y_test, test_pred))
 
-#confusion matrix
+"""-------------Confusion matrix-------------"""
 from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt
+
 classes = ["Healthy", "Early", "Late"]
 cm = confusion_matrix(y_test, test_pred)
-print(cm)
+import seaborn as sns
+
+plt.figure()
+sns.heatmap(cm, annot=True, fmt='d', xticklabels=classes, yticklabels=classes)
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix")
+plt.show()
+
+"""Feature imoprtance"""
+import matplotlib.pyplot as plt
+
+weights = final_model.coef_
+
+plt.figure(figsize=(8,4))
+for i, w in enumerate(weights):
+    plt.plot(w, label=f"Class {i}")
+
+plt.title("SVM Feature Weights")
+plt.xlabel("Feature Index")
+plt.ylabel("Weight")
+plt.legend()
+plt.grid(True)
+plt.show()
 
 """Visualization-----------------------------------------------------------------------------------------------------"""
 

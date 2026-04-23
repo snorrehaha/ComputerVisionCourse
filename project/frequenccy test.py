@@ -4,14 +4,7 @@ import matplotlib.pyplot as plt
 import functions as f
 
 def fft_features_and_visualize(img_hsv, mask, title="Image"):
-    """
-    1. Apply mask (focus only on leaf)
-    2. Compute FFT
-    3. Visualize magnitude spectrum
-    4. Extract simple + band features
-    """
 
-    # --- grayscale from HSV (L channel proxy) ---
     gray = img_hsv[:, :, 2]
 
     # --- apply segmentation mask ---

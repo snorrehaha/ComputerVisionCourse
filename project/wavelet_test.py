@@ -4,11 +4,7 @@ import pywt
 import functions as f
 
 def GetWaveletFeatures(img_hsv):
-    """
-    Extract wavelet-based texture features from leaf region.
-    """
 
-    # grayscale from V channel (works well for plant images)
     gray = img_hsv[:, :, 2]
 
     # wavelet decomposition
@@ -16,12 +12,10 @@ def GetWaveletFeatures(img_hsv):
 
     features = []
 
-    # coeffs[0] = approximation (low freq)
     cA = coeffs[0]
     features.append(np.mean(cA))
     features.append(np.std(cA))
 
-    # detail coefficients (horizontal, vertical, diagonal)
     for level in coeffs[1:]:
         for band in level:
             features.append(np.mean(band))

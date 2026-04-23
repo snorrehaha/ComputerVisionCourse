@@ -3,19 +3,13 @@ import numpy as np
 import functions as f
 
 def GetGaborFeatures(img_gray):
-    """
-    Extract Gabor texture features from grayscale image.
-    Returns mean/std responses across multiple kernels.
-    """
 
-    # Ensure grayscale input
     if len(img_gray.shape) == 3:
         img_gray = cv2.cvtColor(img_gray, cv2.COLOR_BGR2GRAY)
 
     kernels = []
     features = []
 
-    # orientations + scales
     for theta in [0, np.pi/4, np.pi/2, 3*np.pi/4]:
         for sigma in [2, 4]:
             kernel = cv2.getGaborKernel(
