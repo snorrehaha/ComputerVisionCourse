@@ -500,7 +500,7 @@ def plot_rgb_histograms(segmented_images, titles):
 
 if __name__ == "__main__":
 
-    img_healthy = LoadImage('Potato_healthy/000_healthy.JPG')
+    img_healthy = LoadImage('Potato-Plants.jpg')
     img_early = LoadImage('Potato_Early_blight/000_early_blight.JPG')
     img_late = LoadImage('Potato_Late_blight/000_late_blight.JPG')
     images = [img_healthy, img_early, img_late]

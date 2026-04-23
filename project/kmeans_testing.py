@@ -11,18 +11,18 @@ img_late    = f.LoadImage('Potato_Early_blight/000_early_blight.JPG')
 
 def kmeans_segment(img, k=4):
     h, w, c = img.shape
-
-    data = img.reshape((-1, 3)).astype(np.float32)
+    H, S, V = cv2.split(img)
+    data = V.reshape((-1, 1)).astype(np.float32)
 
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 1.0)
 
     _, labels, centers = cv2.kmeans(
-        data, k, None, criteria, 5, cv2.KMEANS_PP_CENTERS
+        V, k, None, criteria, 5, cv2.KMEANS_PP_CENTERS
     )
 
     centers = np.uint8(centers)
 
-    segmented = centers[labels.flatten()].reshape((h, w, 3))
+    segmented = centers[labels.flatten()].reshape((h, w))
     labels_img = labels.reshape(h, w)
 
     return segmented, labels_img

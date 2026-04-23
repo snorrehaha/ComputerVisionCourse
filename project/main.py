@@ -1,5 +1,7 @@
 # classification of potato leaf disease
 """Imports"""
+
+
 import functions as f
 import numpy as np
 import matplotlib.pyplot as plt
@@ -118,7 +120,12 @@ print("Final Test Results")
 print("Accuracy:", accuracy_score(y_test, test_pred))
 print(classification_report(y_test, test_pred))
 
-
+#confusion matrix
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
+classes = ["Healthy", "Early", "Late"]
+cm = confusion_matrix(y_test, test_pred)
+print(cm)
 
 """Visualization-----------------------------------------------------------------------------------------------------"""
 
