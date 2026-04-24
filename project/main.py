@@ -149,6 +149,7 @@ from sklearn.metrics import confusion_matrix
 
 classes = ["Healthy", "Early", "Late"]
 cm = confusion_matrix(y_test, test_pred)
+print(cm)
 import seaborn as sns
 
 plt.figure()

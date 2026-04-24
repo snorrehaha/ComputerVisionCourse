@@ -163,6 +163,6 @@ def extract_features(img_hsv, leaf_mask):
     color_feats = extract_color_features(img_hsv, leaf_mask)
     texture_feats = extract_glcm_features(img_hsv, leaf_mask)
 
-    return np.concatenate([color_feats, texture_feats])
+    return np.concatenate([color_feats, texture_feats  ]) #color_feats, texture_feats
 
 """DISPLAY ----------------------------------------------------------------------------------------------------------"""
